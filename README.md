@@ -1,6 +1,6 @@
 # ESP32-I2S-Microphone-Speaker
 
-Tinypico I@S Test (work in progress)
+Tinypico I2S Test (work in progress)
 
 Parts
 
