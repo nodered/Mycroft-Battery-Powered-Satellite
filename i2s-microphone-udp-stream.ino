@@ -9,7 +9,7 @@
 
     To record a wav file on the target use this...
     python receive.py
-    
+    https://github.com/nodered/ESP32-I2S-Microphone-Speaker/blob/main/receive.py
 
     TinyPICO - ESP32 Development Board - V2
     https://www.adafruit.com/product/4335
@@ -68,7 +68,7 @@ i2s_config_t i2s_config = {
       dma_buf_len: 8
 };
 
-//  Pins from the microphone to GPIO on the ESP32 Tinypico
+//  Pins from the microphone to GPIO on the Tinypico/ESP32 
 i2s_pin_config_t pin_config = {
     .bck_io_num = 21, //BCLK to GPIO21
     .ws_io_num = 25,  //LRCL to GPIO25
