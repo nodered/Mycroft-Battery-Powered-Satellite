@@ -20,7 +20,8 @@ Lithium Ion Polymer Battery - 3.7V 420mAh
 https://www.adafruit.com/product/4236
 
 
-Code From the Following
+
+Code used from
 
 C++
 https://github.com/aleiei/ESP32-BUG-I2S-MIC
