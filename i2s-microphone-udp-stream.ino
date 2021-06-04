@@ -9,7 +9,7 @@
 
     To record a wav file on the target use this...
     python receive.py
-    https://github.com/GrahamM/ESP32_I2S_Microphone/blob/master/receive.py
+    
 
     TinyPICO - ESP32 Development Board - V2
     https://www.adafruit.com/product/4335
