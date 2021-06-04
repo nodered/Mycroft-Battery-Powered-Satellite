@@ -24,7 +24,7 @@ Mini Oval Speaker - 8 Ohm 1 Watt
 
 https://www.adafruit.com/product/3923
 
-Lithium Ion Polymer Battery - 3.7V 300mAh
+Lithium Ion Polymer Battery - 3.7V 420mAh
 
 https://www.adafruit.com/product/4236
 
