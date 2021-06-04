@@ -1,8 +1,8 @@
-# ESP32-I2S-Microphone-Speaker
+## ESP32-I2S-Microphone-Speaker
 
 Tinypico I2S Test (work in progress)
 
-## Parts
+### Parts
 
 TinyPICO - ESP32 Development Board - V2
 https://www.adafruit.com/product/4335
@@ -21,7 +21,7 @@ https://www.adafruit.com/product/4236
 
 
 
-## Code used from
+### Code used from
 
 C++
 https://github.com/aleiei/ESP32-BUG-I2S-MIC
