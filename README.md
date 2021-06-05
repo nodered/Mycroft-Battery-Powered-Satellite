@@ -4,7 +4,8 @@ Tinypico I2S Test
 
 #### Status
 
-The microphone works.
+The microphone works with i2s-microphone-udp-stream.ino and receive.py on the pc.
+The speaker works with atomic-i2s-output
 
 ### Parts
 
