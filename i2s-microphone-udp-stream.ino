@@ -87,7 +87,7 @@ i2s_config_t i2s_config = {
 //  Pins from the microphone to GPIO on the Tinypico/ESP32 
 i2s_pin_config_t pin_config = {
     .bck_io_num = 21, //BCLK to GPIO21
-    .ws_io_num = 25,  //LRCL to GPIO25
+    .ws_io_num = 33,  //LRCL to GPIO33
     .data_out_num = I2S_PIN_NO_CHANGE, // this is DATA output pin
     .data_in_num = 32 //DOUT to GPIO32
 };
