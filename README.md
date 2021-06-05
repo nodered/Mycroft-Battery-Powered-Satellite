@@ -1,6 +1,7 @@
 ## ESP32-I2S-Microphone-Speaker
 
-Tinypico I2S Test
+TinyPICO I2S Microphone and Speaker Test.
+
 
 #### Status
 
@@ -34,12 +35,8 @@ https://www.adafruit.com/product/4236
 
 ### Code used from
 
-C++
+https://github.com/atomic14 Epic ESP32 I2S sound resource!!
+
 https://github.com/aleiei/ESP32-BUG-I2S-MIC
 
-https://github.com/aleiei/ESP32-BUG-I2S-MIC/blob/master/src/main.cpp
-
-Python
 https://github.com/GrahamM/ESP32_I2S_Microphone
-
-https://github.com/GrahamM/ESP32_I2S_Microphone/blob/master/receive.py
