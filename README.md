@@ -2,12 +2,13 @@
 
 TinyPICO I2S Microphone and Speaker Test.
 
+Audio out is using the esp8266audio library.
 
 #### Status
 
 The microphone works with i2s-microphone-udp-stream.ino and receive.py on the pc.
 
-The speaker works with atomic-i2s-output
+The speaker works with PlayMP3FromSPIFFS.ino 
 
 ### Parts
 
