@@ -4,9 +4,10 @@
 
 #### Status
 
-The microphone works with i2s-microphone-udp-stream.ino and receive.py on the pc.
+Test the microphone with i2s-microphone-udp-stream.ino and i2s-microphone-udp-stream.py on the pc/raspberry pi.
 
-The speaker works with PlayMP3FromSPIFFS.ino 
+Test audio out with ESP8266Audio library above
+https://github.com/earlephilhower/ESP8266Audio
 
 ### Parts
 
