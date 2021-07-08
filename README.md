@@ -17,7 +17,9 @@ set-default-source virtmic
 socat -T 15 udp4-listen:18000,reuseaddr,fork stdout >> /tmp/virtmic
 
 record with...
+
 arecord -d 5 --device=pulse -r 44100 -c 1 -f S16_LE test.wav
+
 ffmpeg -f pulse -i default -f mp3 test.mp3
 
 ### Parts
