@@ -5,9 +5,12 @@
 #### Status
 
 Test the microphone with i2s-microphone-udp-stream.ino and i2s-microphone-udp-stream.py on the pc/raspberry pi.
+You may have to open UDP port 18000 on your firewall.
 
-Test audio out with ESP8266Audio library above
+Test audio out with the ESP8266Audio.zip library above. I tweaked AudioOuptutI2S.cpp to reflect the breadboard layout.
 https://github.com/earlephilhower/ESP8266Audio
+
+
 
 ### Parts
 
