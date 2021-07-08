@@ -9,7 +9,7 @@ You may have to open UDP port 18000 on your firewall.
 
 Test audio out with the ESP8266Audio.zip library above. I tweaked AudioOuptutI2S.cpp to reflect the breadboard layout.
 
-To use as the only microphone with a Raspberry Pi or PC and pulseaudio...
+To use as the only microphone for a Raspberry Pi or PC with pulseaudio...
 
 pactl load-module module-pipe-source source_name=virtmic file=/tmp/virtmic format=S32LE rate=16000 channels=1
 set-default-source virtmic
