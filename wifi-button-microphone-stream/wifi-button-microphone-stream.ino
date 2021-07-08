@@ -4,7 +4,7 @@ pulseauido microphone setup on server/raspberry pi
   pactl set-default-source virtmic
 
 listen on port 18000 and append data to pulseaudio fifo file
-  socat udp-listen:18000,reuseaddr,fork stdout >> /tmp/virtmic
+  socat -T 15 udp4-listen:18000,reuseaddr,fork stdout >> /tmp/virtmic
   test with...  cat /tmp/virtmic  ...if no data firewall config needed
 
 arecord -d 5 --device=pulse -r 44100 -c 1 -f S16_LE test.wav
