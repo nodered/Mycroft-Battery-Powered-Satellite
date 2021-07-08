@@ -1,8 +1,6 @@
-## ESP32-I2S-Microphone-Speaker
+## Mycroft Battery Powered Satellite - ESP32 with I2S Microphone/Speaker
 
-TinyPICO I2S Microphone and Speaker Test.
 
-Audio out is using the esp8266audio library.
 
 #### Status
 
@@ -36,7 +34,7 @@ https://www.adafruit.com/product/1570
 
 ### Code used from
 
-https://github.com/atomic14 Epic ESP32 I2S sound resource!!
+https://github.com/atomic14
 
 https://github.com/aleiei/ESP32-BUG-I2S-MIC
 
