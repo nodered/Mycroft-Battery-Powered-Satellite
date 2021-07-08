@@ -2,7 +2,9 @@
 
 
 
-#### Status
+#### Status - These are just tests for the hardware and software
+
+##### Still working on the Mycroft skill
 
 Test the microphone with i2s-microphone-udp-stream.ino and i2s-microphone-udp-stream.py on the pc/raspberry pi.
 You may have to open UDP port 18000 on your firewall.
