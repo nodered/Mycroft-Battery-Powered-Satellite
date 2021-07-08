@@ -12,6 +12,9 @@ Test audio out with the ESP8266Audio.zip library above. I tweaked AudioOuptutI2S
 
 To use as the only microphone for a Raspberry Pi or PC with pulseaudio...
 
+The wifi-button-microphone-stream folder has the sketch for the ESP32 if you want to
+add a button to start and stop the microphone stream and a bare bones node-red flow
+
 pactl load-module module-pipe-source source_name=virtmic file=/tmp/virtmic format=S32LE rate=16000 channels=1
 
 set-default-source virtmic
