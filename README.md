@@ -8,7 +8,7 @@ Test the microphone with i2s-microphone-udp-stream.ino and i2s-microphone-udp-st
 You may have to open UDP port 18000 on your firewall.
 
 Test audio out with the ESP8266Audio.zip library above. I tweaked AudioOuptutI2S.cpp to reflect the breadboard layout.
-https://github.com/earlephilhower/ESP8266Audio
+
 
 
 
@@ -37,6 +37,8 @@ https://www.adafruit.com/product/1570
 
 
 ### Code used from
+
+https://github.com/earlephilhower/ESP8266Audio
 
 https://github.com/atomic14
 
