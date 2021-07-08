@@ -15,17 +15,17 @@ To use as the only microphone for a Raspberry Pi or PC with pulseaudio...
 The wifi-button-microphone-stream folder has the sketch for the ESP32 if you want to
 add a button to start and stop the microphone stream and a bare bones node-red flow
 
-pactl load-module module-pipe-source source_name=virtmic file=/tmp/virtmic format=S32LE rate=16000 channels=1
+```pactl load-module module-pipe-source source_name=virtmic file=/tmp/virtmic format=S32LE rate=16000 channels=1```
 
-set-default-source virtmic
+```set-default-source virtmic```
 
-socat -T 15 udp4-listen:18000,reuseaddr,fork stdout >> /tmp/virtmic
+```socat -T 15 udp4-listen:18000,reuseaddr,fork stdout >> /tmp/virtmic```
 
 record with...
 
-arecord -d 5 --device=pulse -r 44100 -c 1 -f S16_LE test.wav
+```arecord -d 5 --device=pulse -r 44100 -c 1 -f S16_LE test.wav```
 
-ffmpeg -f pulse -i default -f mp3 test.mp3
+```ffmpeg -f pulse -i default -f mp3 test.mp3```
 
 ### Parts
 
