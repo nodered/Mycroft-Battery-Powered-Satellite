@@ -1,8 +1,50 @@
 ## Mycroft Battery Powered Satellite - ESP32 with I2S Microphone/Speaker
 
+### This configuration works if you are using the I2S microphone as your only microphone
+
+#### Help needed for using this setup as a second microphone using xbashscript.sh
+
+1.  Create Ramdisk - Needed for Raspberry Pi
+
+    Add the following to /etc/fstab
+    ```tmpfs /ramdisk tmpfs rw,nodev,nosuid,size=20M 0 0```
+    
+    ```sudo mkdir /ramdisk```
+    
+    ```sudo mount -a```
 
 
-#### Status - These are just tests for the hardware and software
+2. Set up Pulseaudio to encode incoming microphone data
+
+    ```pactl load-module module-pipe-source source_name=virtmic file=/ramdisk/virtmic format=S32LE rate=16000 channels=1```
+
+    ```pactl set-default-source virtmic```
+
+
+3. Capture Microphone Data  
+
+    Use socat to listen on UDP port 18000 and append data to the Pulseaudio FIFO file
+    
+    ```socat -T 15 udp4-listen:18000,reuseaddr,fork stdout >> /ramdisk/virtmic```
+
+
+4. Set up MP3 Server
+    
+    The ESP32 is using the ESP8266audio libraries and uses the StreamMP3FromHTTP
+    example sketch.
+    
+    Simple VLC MP3 server - Transcodes all system sounds to MP3 stream
+    
+    ```cvlc pulse://<your default sink name>.monitor   --sout="#transcode{vcodec=none,acodec=mp3,ab=128,channels=2,samplerate=44100}:http{mux=mp3,host=127.0.0.1,dst=:8080/stream}" --sout-keep```
+    
+    example...
+    
+   ```cvlc pulse://alsa_output.pci-0000_0a_00.6.analog-stereo.monitor --sout="#transcode{vcodec=none,acodec=mp3,ab=128,channels=2,samplerate=44100}:http{mux=mp3,host=127.0.0.1,dst=:8080/stream}" --sout-keep```
+
+  
+---
+
+#### Tests for the hardware and software
 
 
 Test the microphone with i2s-microphone-udp-stream.ino and i2s-microphone-udp-stream.py on the pc/raspberry pi.
