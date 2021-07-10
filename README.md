@@ -1,4 +1,5 @@
 ## Mycroft Battery Powered Satellite - ESP32 with I2S Microphone/Speaker
+https://github.com/nodered/ESP32-I2S-Microphone-Speaker/tree/main/mycroft-microphone-speaker
 
 ### This configuration works if you are using the I2S microphone is your only microphone
 
