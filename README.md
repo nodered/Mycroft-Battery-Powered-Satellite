@@ -2,7 +2,7 @@
 
 ### This configuration works if you are using the I2S microphone as your only microphone
 
-#### Help needed for using this setup as a second microphone using 2-mic-pulseaudio.setup.sh
+#### Help needed for setting up a second microphone using 2-mic-pulseaudio.setup.sh
 
 1.  Create Ramdisk - Needed for Raspberry Pi
 
