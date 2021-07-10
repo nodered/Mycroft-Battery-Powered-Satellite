@@ -21,6 +21,14 @@
     ```pactl load-module module-pipe-source source_name=virtmic file=/ramdisk/virtmic format=S32LE rate=16000 channels=1```
 
     ```pactl set-default-source virtmic```
+    
+    Edit /etc/pulse/default.pa and comment out/add # in front of this line (Solved the VLC MP3 server buffering problems)
+    
+        #load-module module-suspend-on-idle
+        
+    Edit /etc/pulse/daemon.conf and change flat-volumes = yes to no (Needed to turn down volume at the Mycroft instance)
+
+        flat-volumes = no
 
 
 3. Capture Microphone Data  
