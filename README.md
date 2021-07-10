@@ -1,6 +1,6 @@
 ## Mycroft Battery Powered Satellite - ESP32 with I2S Microphone/Speaker
 
-### This configuration works if you are using the I2S microphone is your only microphone
+### This configuration works if you are using the I2S microphone as your only microphone
 
 #### Help needed for setting up a second microphone using 2-mic-pulseaudio.setup.sh
 
