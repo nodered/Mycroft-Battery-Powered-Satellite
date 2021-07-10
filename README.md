@@ -4,8 +4,7 @@
 
 #### Help needed for setting up a second microphone using 2-mic-pulseaudio.setup.sh
 
-#### A proper Mycroft skill would use the Node-Red flow and the socat and VLC commands
-#### as subprocesses in Python.
+#### A proper Mycroft skill would use the Node-Red flow and the socat and VLC commands as subprocesses in Python.
 
 1.  Create Ramdisk - Needed for Raspberry Pi
 
