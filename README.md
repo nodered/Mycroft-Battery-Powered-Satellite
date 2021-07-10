@@ -5,7 +5,6 @@
 #### Help needed for setting up a second microphone using 2-mic-pulseaudio.setup.sh
 
 
-
 1.  Create Ramdisk - Needed for Raspberry Pi
 
     Add the following to /etc/fstab
