@@ -2,9 +2,10 @@
 
 ### This configuration works if you are using the I2S microphone as your only microphone
 
-#### Help needed for setting up a second microphone using 2-mic-pulseaudio.setup.sh
+* Help needed for setting up a second microphone using 2-mic-pulseaudio.setup.sh since the typical
+use case would be adding this device as a second/addtional microphone and speaker
 
-#### A proper Mycroft skill would use the Node-Red flow and the socat and VLC commands as subprocesses in Python.
+#### A proper Mycroft skill would combine Node-Red flow and the socat and VLC commands in Python.
 
 1.  Create Ramdisk - Needed for Raspberry Pi
 
@@ -31,14 +32,13 @@
         flat-volumes = no
 
 
-3. Capture Microphone Data  
+3 Capture Microphone Data and Start MP3 Server
+    
+   ### Use socat-mp3-server.sh 
 
-    Use socat to listen on UDP port 18000 and append data to the Pulseaudio FIFO file
+    socat listens on UDP port 18000 and appends data to the Pulseaudio FIFO file
     
     ```socat -T 15 udp4-listen:18000,reuseaddr,fork stdout >> /ramdisk/virtmic```
-
-
-4. Set up MP3 Server
     
     The ESP32 is using the ESP8266audio libraries and uses the StreamMP3FromHTTP
     example sketch.
@@ -51,7 +51,8 @@
     
    ```cvlc pulse://alsa_output.pci-0000_0a_00.6.analog-stereo.monitor --sout="#transcode{vcodec=none,acodec=mp3,ab=128,channels=2,samplerate=44100}:http{mux=mp3,host=127.0.0.1,dst=:8080/stream}" --sout-keep```
 
-  
+4. Import the Node-Red flow
+
 ---
 
 #### Tests for the hardware and software
