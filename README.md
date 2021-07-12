@@ -5,11 +5,12 @@
 * Help needed for setting up a second microphone using 2-mic-pulseaudio.setup.sh since the typical
 use case would be adding this device as a second/addtional microphone and speaker
 
-#### A proper Mycroft skill would combine Node-Red flow and the socat and VLC commands in Python.
+* A proper Mycroft skill would combine Node-Red flow and the socat and VLC commands in Python.
 
-1.  Create Ramdisk - Needed for Raspberry Pi
+1. Create Ramdisk - Needed for Raspberry Pi
 
     Add the following to /etc/fstab
+    
     ```tmpfs /ramdisk tmpfs rw,nodev,nosuid,size=20M 0 0```
     
     ```sudo mkdir /ramdisk```
@@ -25,33 +26,38 @@ use case would be adding this device as a second/addtional microphone and speake
     
     Edit /etc/pulse/default.pa and comment out/add # in front of this line (Solved the VLC MP3 server buffering problems)
     
-        #load-module module-suspend-on-idle
+      #load-module module-suspend-on-idle
         
     Edit /etc/pulse/daemon.conf and change flat-volumes = yes to no (Needed to turn down volume at the Mycroft instance)
-
-        flat-volumes = no
-
-
-3 Capture Microphone Data and Start MP3 Server
     
-   ### Use socat-mp3-server.sh 
+      ; flat-volumes = yes (default setting)
+      
+      flat-volumes = no
+
+3. Capture Microphone Data and Start MP3 Server
+
+    ```sudo apt-get install socat vlc```
+    
+     Run socat-mp3-server.sh
 
     socat listens on UDP port 18000 and appends data to the Pulseaudio FIFO file
-    
-    ```socat -T 15 udp4-listen:18000,reuseaddr,fork stdout >> /ramdisk/virtmic```
-    
-    The ESP32 is using the ESP8266audio libraries and uses the StreamMP3FromHTTP
-    example sketch.
-    
+
+   ```socat -T 15 udp4-listen:18000,reuseaddr,fork stdout >> /ramdisk/virtmic```
+
+    The ESP32 is using the ESP8266audio libraries and uses the StreamMP3FromHTTP example sketch.
+
     Simple VLC MP3 server - Transcodes all system sounds to MP3 stream
-    
-    ```cvlc pulse://<your default sink name>.monitor   --sout="#transcode{vcodec=none,acodec=mp3,ab=128,channels=2,samplerate=44100}:http{mux=mp3,host=127.0.0.1,dst=:8080/stream}" --sout-keep```
-    
+
+   ```cvlc pulse://<your default sink name>.monitor   --sout="#transcode{vcodec=none,acodec=mp3,ab=128,channels=2,samplerate=44100}:http{mux=mp3,host=127.0.0.1,dst=:8080/stream}" --sout-keep```
+
     example...
-    
+
    ```cvlc pulse://alsa_output.pci-0000_0a_00.6.analog-stereo.monitor --sout="#transcode{vcodec=none,acodec=mp3,ab=128,channels=2,samplerate=44100}:http{mux=mp3,host=127.0.0.1,dst=:8080/stream}" --sout-keep```
 
 4. Import the Node-Red flow
+
+5. Add yourself to the pulseaudio group (needed for the Node-Red flow)
+
 
 ---
 
