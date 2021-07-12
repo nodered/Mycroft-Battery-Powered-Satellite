@@ -50,9 +50,9 @@ use case would be adding this device as a second/addtional microphone and speake
 
    ```cvlc pulse://<your default sink name>.monitor   --sout="#transcode{vcodec=none,acodec=mp3,ab=128,channels=2,samplerate=44100}:http{mux=mp3,host=127.0.0.1,dst=:8080/stream}" --sout-keep```
 
-    example...
+    example on the pi...
 
-   ```cvlc pulse://alsa_output.pci-0000_0a_00.6.analog-stereo.monitor --sout="#transcode{vcodec=none,acodec=mp3,ab=128,channels=2,samplerate=44100}:http{mux=mp3,host=127.0.0.1,dst=:8080/stream}" --sout-keep```
+   ```cvlc pulse://alsa_output.platform-bcm2835_audio.analog-stereo.monitor --sout="#transcode{vcodec=none,acodec=mp3,ab=128,channels=2,samplerate=44100}:http{mux=mp3,host=127.0.0.1,dst=:8080/stream}" --sout-keep```
 
 4. Import the Node-Red flow
 
