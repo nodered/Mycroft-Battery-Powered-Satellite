@@ -55,6 +55,14 @@ use case would be adding this device as a second/addtional microphone and speake
    ```cvlc pulse://alsa_output.platform-bcm2835_audio.analog-stereo.monitor --sout="#transcode{vcodec=none,acodec=mp3,ab=128,channels=2,samplerate=44100}:http{mux=mp3,host=127.0.0.1,dst=:8080/stream}" --sout-keep```
 
 4. Import the Node-Red flow
+ 
+    Install with...
+    
+    ```bash <(curl -sL https://raw.githubusercontent.com/node-red/linux-installers/master/deb/update-nodejs-and-nodered)```
+    
+    ```sudo systemctl enable nodered.service```
+
+    ```sudo service nodered start```
 
 5. Add yourself to the pulseaudio group (needed for the Node-Red flow)
 
