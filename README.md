@@ -37,8 +37,6 @@ use case would be adding this device as a second/addtional microphone and speake
 3. Capture Microphone Data and Start MP3 Server
 
     ```sudo apt-get install socat vlc```
-    
-     Run socat-mp3-server.sh
 
     socat listens on UDP port 18000 and appends data to the Pulseaudio FIFO file
 
@@ -64,7 +62,7 @@ use case would be adding this device as a second/addtional microphone and speake
 
     ```sudo service nodered start```
 
-5. Add yourself to the pulseaudio group (needed for the Node-Red flow)
+5. Run ```start-socat-mp3-server-mycroft.sh```
 
 
 ---
