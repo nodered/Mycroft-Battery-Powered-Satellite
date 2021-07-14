@@ -18,21 +18,25 @@ use case would be adding this device as a second/addtional microphone and speake
     ```sudo mount -a```
 
 
-2. Set up Pulseaudio to encode incoming microphone data
-
-    ```pactl load-module module-pipe-source source_name=virtmic file=/ramdisk/virtmic format=S32LE rate=16000 channels=1```
-
-    ```pactl set-default-source virtmic```
-    
+2. Set up Pulseaudio and encode incoming microphone data
+  
     Edit /etc/pulse/default.pa and comment out/add # in front of this line (Solved the VLC MP3 server buffering problems)
     
       #load-module module-suspend-on-idle
         
-    Edit /etc/pulse/daemon.conf and change flat-volumes = yes to no (Needed to turn down volume at the Mycroft instance)
+    Edit /etc/pulse/daemon.conf and change flat-volumes = yes to no (Needed to turn down volume to 1% at the Mycroft instance)
     
       ; flat-volumes = yes (default setting)
       
       flat-volumes = no
+      
+      Add the following to /etc/pulse/default.pa
+      
+    ```load-module module-pipe-source source_name=virtmic file=/ramdisk/virtmic format=S32LE rate=16000 channels=1```
+
+    ```set-default-source virtmic```
+    
+    Restart pulseaudio
 
 3. Capture Microphone Data and Start MP3 Server
 
@@ -51,6 +55,8 @@ use case would be adding this device as a second/addtional microphone and speake
     example on the pi...
 
    ```cvlc pulse://alsa_output.platform-bcm2835_audio.analog-stereo.monitor --sout="#transcode{vcodec=none,acodec=mp3,ab=128,channels=2,samplerate=44100}:http{mux=mp3,host=127.0.0.1,dst=:8080/stream}" --sout-keep```
+   
+   Edit and run ```start-socat-mp3-server-mycroft.sh``` to reflect your default sink
 
 4. Import the Node-Red flow
  
@@ -61,9 +67,6 @@ use case would be adding this device as a second/addtional microphone and speake
     ```sudo systemctl enable nodered.service```
 
     ```sudo service nodered start```
-
-5. Run ```start-socat-mp3-server-mycroft.sh```
-
 
 ---
 
