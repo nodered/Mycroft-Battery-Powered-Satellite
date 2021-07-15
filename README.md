@@ -83,11 +83,11 @@ add a button to start and stop the microphone stream and a bare bones node-red f
 
 To use as the only microphone for a Raspberry Pi or PC with pulseaudio...
 
-```pactl load-module module-pipe-source source_name=virtmic file=/tmp/virtmic format=S32LE rate=16000 channels=1```
+```pactl load-module module-pipe-source source_name=virtmic file=/ramdisk/virtmic format=S32LE rate=16000 channels=1```
 
 ```pactl set-default-source virtmic```
 
-```socat -T 15 udp4-listen:18000,reuseaddr,fork stdout >> /tmp/virtmic```
+```socat -T 15 udp4-listen:18000,reuseaddr,fork stdout >> /ramdisk/virtmic```
 
 record with...
 
