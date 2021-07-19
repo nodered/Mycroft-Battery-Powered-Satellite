@@ -2,10 +2,8 @@
 
 ### This configuration works if you are using the I2S microphone as your only microphone
 
-* Help needed for setting up a second microphone using 2-mic-pulseaudio.setup.sh since the typical
-use case would be adding this device as a second/addtional microphone and speaker
 
-* A proper Mycroft skill would combine Node-Red flow and the socat and VLC commands in Python.
+* A proper Mycroft skill would combine Node-Red flow and the socat and VLC commands.
 
 1. Create Ramdisk - Needed for Raspberry Pi
 
