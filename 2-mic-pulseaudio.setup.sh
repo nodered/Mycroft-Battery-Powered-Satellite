@@ -47,6 +47,7 @@ do_activate() {
     pactl load-module module-remap-source master=$Mic2
     pactl load-module module-loopback sink=combined source=${Mic2}
     echo "[DONE] Now adjust the Mic1 and Mic2 channel volume of the new sink to be equally loud"
+    pactl set-default-source combined.monitor
 
 
 }
