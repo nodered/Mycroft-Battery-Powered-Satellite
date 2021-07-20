@@ -10,12 +10,16 @@
 #include <soc/i2s_reg.h>
 #include "SPIFFS.h"
 #include "FS.h"
+#include <TinyPICO.h>
 
 #include "AudioFileSourceHTTPStream.h"
 #include "AudioFileSourceSPIFFS.h"
 #include "AudioFileSourceBuffer.h"
 #include "AudioGeneratorMP3.h"
 #include "AudioOutputI2S.h"
+
+TinyPICO tp = TinyPICO();
+float GetBatteryVoltage();
 
 AsyncUDP udp;
 // Server to send microphone data to
@@ -98,10 +102,14 @@ AudioFileSourceSPIFFS *file0;
 AudioFileSourceBuffer *buff;
 AudioOutputI2S *out = new AudioOutputI2S();
 
+RTC_DATA_ATTR int bootCount = 0;
 
 void setup(){
   Serial.begin(115200);
   delay(100);
+
+  ++bootCount;
+  Serial.println("Boot number: " + String(bootCount));
 
   // Init filesystem/files
   SPIFFS.begin();
@@ -159,11 +167,15 @@ void setup(){
   }
   Serial.println("I2S driver OK");
 
+  
+
   // Start webserver
   setup_routing(); // Start local server
   http.begin(targetServer);
+  
   httpOut(); // Send startMic to server on wake
-
+  
+  
 }// setup
 
 
@@ -194,63 +206,64 @@ void loop(){
     break;
   }
 
-      // recording loop
-      while(startMic == 1){
+  // recording loop
+  while(startMic == 1){
 
-        udp.connect(udpAddress, udpPort0);
-        server.handleClient();
+    udp.connect(udpAddress, udpPort0);
+    server.handleClient();
 
-        static uint8_t state = 0;
+    static uint8_t state = 0;
 
-        i2s_mic();
+    i2s_mic();
 
-        // Stop recording with button from testing
-        if(touchRead(T0) <= 30){
-          delay(300);
-          Serial.println("stop recording");
-          stopMic = 1;
-          postrecording();
+    // Stop recording with button from testing
+    if(touchRead(T0) <= 30){
+      delay(300);
+      Serial.println("stop recording");
+      stopMic = 1;
+      postrecording();
+      break;
+    }
+
+    // Stop recording with msg from server
+    if(stopMic == 1){
+      Serial.println("stop recording - msg from server");
+      startMic = 0;
+      postrecording();
+      break;
+    }
+
+
+    if (!connected) {
+        if (udp.connect(udpAddress, udpPort0)) {
+            connected = true;
         }
+    }
 
-        // Stop recording with msg from server
-        if(stopMic == 1){
-          Serial.println("stop recording - msg from server");
-          startMic = 0;
-          postrecording();
-          break;
-        }
-
-
-        if (!connected) {
-            if (udp.connect(udpAddress, udpPort0)) {
-                connected = true;
-            }
-        }
-
-        else {
-            switch (state) {
-                case 0: // wait for index to pass halfway
-                    if (rpt > 1023) {
-                    state = 1;
-                    }
-                    break;
-                case 1: // send the first half of the buffer
-                    state = 2;
-                    udp.write( (uint8_t *)buffer, 1024);
-                    break;
-                case 2: // wait for index to wrap
-                    if (rpt < 1023) {
-                        state = 3;
-                    }
-                    break;
-                case 3: // send second half of the buffer
-                    state = 0;
-                    udp.write((uint8_t*)buffer+1024, 1024);
-                    break;
+    else {
+        switch (state) {
+            case 0: // wait for index to pass halfway
+                if (rpt > 1023) {
+                state = 1;
                 }
+                break;
+            case 1: // send the first half of the buffer
+                state = 2;
+                udp.write( (uint8_t *)buffer, 1024);
+                break;
+            case 2: // wait for index to wrap
+                if (rpt < 1023) {
+                    state = 3;
+                }
+                break;
+            case 3: // send second half of the buffer
+                state = 0;
+                udp.write((uint8_t*)buffer+1024, 1024);
+                break;
             }
+        }
 
-      }// recording loop
+  }// recording loop
 
   delay(2);
 
@@ -261,6 +274,8 @@ void loop(){
 void postrecording(){
 
   delay(2);
+  
+  tp.DotStar_Clear();
 
   Serial.println("post recording");
 
@@ -278,7 +293,7 @@ void postrecording(){
       // ResponseDone msg from server
       if(responseDone == 1){
           startPlayback = 0;
-          http.end();
+          //http.end();
           goToSleep = 1;
           break;
         }
@@ -292,7 +307,12 @@ void postrecording(){
      }//play response
 
       while(goToSleep == 1){
-      
+
+        tp.DotStar_SetPower( false ); //needed for deep sleep
+        WiFi.disconnect();
+        WiFi.mode(WIFI_OFF);
+        btStop();
+
         Serial.println("playback finished - go to sleep");
         delay(200);
         sleep();
@@ -316,7 +336,7 @@ void playSpiffsMP3(){
   file0 = new AudioFileSourceSPIFFS("/start_listening.mp3");
   mp3a = new AudioGeneratorMP3();
   out = new AudioOutputI2S();
-  out -> SetGain(0.5);
+  out -> SetGain(1.0);
   mp3a->begin(file0, out);
 }
 
@@ -329,7 +349,7 @@ void playRemoteMP3(){
   buff = new AudioFileSourceBuffer(file, 2048);
   out = new AudioOutputI2S();
   mp3b = new AudioGeneratorMP3();
-  out -> SetGain(0.5);
+  out -> SetGain(1.0);
   mp3b->begin(buff, out);
 
 }
@@ -370,6 +390,7 @@ void handlePost() {
 
     if(body == "startMic"){
     startMic = 1;
+    tp.DotStar_SetPixelColor( 1, 10, 1 );
     server.send(200, "text/plain", "startMic received");
   }
 
@@ -380,18 +401,45 @@ void handlePost() {
   }
 }
 
+
+    
 // Send startMic to server responseDone
 void httpOut(){
 
-    http.addHeader("Content-Type", "text/plain");
-    int httpCode = http.POST("startMic");
-    Serial.println("http out sent");
+  http.addHeader("Content-Type", "text/plain");
+  int httpCode = http.POST("startMic");
+  Serial.println("http out sent");
+  
+  if (httpCode > 0) {
+    String payload = http.getString();
+    Serial.println(payload);
+  }
 
-    if (httpCode > 0) {
-      String payload = http.getString();
-      Serial.println(payload);
-    }
+  http.end();
 
-    http.end();
+}
 
+void battvoltage(){
+
+float parameter = tp.GetBatteryVoltage();
+String myString = "";
+myString.concat(parameter);
+
+int boot = bootCount;
+String myString2 = "";
+myString2.concat(boot);
+
+  http.addHeader("Content-Type", "text/plain");
+  int httpCode = http.POST(myString);
+  int httpCode2 = http.POST(myString2);
+  
+  if (httpCode > 0) {
+    String payload = http.getString();
+  }
+
+  if (httpCode2 > 0) {
+    String payload = http.getString();
+  }
+
+  http.end();
 }
