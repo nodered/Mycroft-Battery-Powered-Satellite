@@ -1,9 +1,5 @@
 ## Mycroft Battery Powered Satellite - ESP32 with I2S Microphone/Speaker
 
-### This configuration works if you are using the I2S microphone as your only microphone
-
-
-* A proper Mycroft skill would combine Node-Red flow and the socat and VLC commands.
 
 1. Create Ramdisk - Needed for Raspberry Pi
 
@@ -22,7 +18,7 @@
     
       #load-module module-suspend-on-idle
         
-    Edit /etc/pulse/daemon.conf and change flat-volumes = yes to no (Needed to turn down volume to 1% at the Mycroft instance)
+    Edit /etc/pulse/daemon.conf and change flat-volumes = yes to no (Needed to turn down volume to 1% at the Mycroft instance w/mic and speaker)
     
       ; flat-volumes = yes (default setting)
       
@@ -32,9 +28,12 @@
       
     ```load-module module-pipe-source source_name=virtmic file=/ramdisk/virtmic format=S32LE rate=16000 channels=1```
 
-    ```set-default-source virtmic```
+    ```set-default-source virtmic``` if this is the only microphone
     
     Restart pulseaudio
+    
+    Run 2-mic-pulseaudio.setup.sh if this is a satellite speaker.
+       
 
 3. Capture Microphone Data and Start MP3 Server
 
@@ -54,9 +53,9 @@
 
    ```cvlc pulse://alsa_output.platform-bcm2835_audio.analog-stereo.monitor --sout="#transcode{vcodec=none,acodec=mp3,ab=128,channels=2,samplerate=44100}:http{mux=mp3,host=127.0.0.1,dst=:8080/stream}" --sout-keep```
    
-   Edit and run ```start-socat-mp3-server-mycroft.sh``` to reflect your default sink
+   Edit ```start-socat-mp3-server-mycroft.sh``` to reflect your default sink
 
-4. Import the Node-Red flow
+4. Install Node-Red and import flow
  
     Install with...
     
